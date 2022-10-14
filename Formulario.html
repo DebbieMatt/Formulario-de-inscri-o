@@ -12,6 +12,10 @@
 
         <link rel="stylesheet" type="text/css" href="Formulario.css" media="screen">
 
+         <!-- JS -->
+
+         <script url="formulario.js"></script>
+
         <!-- Título da página (aparece na aba) -->
 
         <title>Cadastro</title>
@@ -28,7 +32,7 @@
 
         <!-- Início do formulário -->
 
-        <form action="envia_fale.php" method="post" name="form">
+        <form name="form">
 
             <fieldset class="grupo">
                  <!-- Campo do nome com legenda "nome" e css de classe "campo" -->
@@ -104,24 +108,24 @@
                 </label>
             </div>
 
-            <div class="campo">
+            <div class="campo" name="Escolaridade">
                 <label for="escolaridade">Escolaridade</label>
-                <select id="Escolaridade">
-                    <option selected disabled value="">selecione</option>
-                    <option>Ensino Fundamental </option>
-                    <option>Ensino Medio</option>
-                    <option>Ensino Superior</option>
+                <select onchange="funcDestinatario(this)" name="Escolaridade" id="Escolaridade">
+                    <option selected disabled value="vazio">selecione</option>
+                    <option value="EF">Ensino Fundamental </option>
+                    <option value="EM">Ensino Medio</option>
+                    <option value="ES">Ensino Superior</option>
                 </select>
             </div>
 
         
             <div class="campo">
                 <label for="situção">Situação</label>
-                <select id="Situação">
-                    <option selected disabled value="">selecione</option>
-                    <option>Completo</option>
-                    <option>Cursando</option>
-                    <option>Incompleto</option>
+                <select onchange="funcMotivo(this)" name="motivo" id="Situação">
+                    <option selected disabled value="vazio">selecione</option>
+                    <option value="Comp">Completo</option>
+                    <option value="Curs">Cursando</option>
+                    <option value="Incomp">Incompleto</option>
                 </select>
             </div>
 
@@ -155,9 +159,9 @@
                 <!-- Botão para enviar o formulário -->
             <button class="botao" type="submit">Concluido</button>
 
-            <div>
-                <input type="hidden" id="inputOculto" name="inputOculto" value="meuvalor">
-            </div>
+            <form method="post" name="email" onSubmit = "return enviar(this);" ENCTYPE="text/plain">
+                <input type="hidden" name="Cadastro">
+            </form>
 
         </form>
 
