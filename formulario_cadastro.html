@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Cadastro - Debbie Matt</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #titulo {
+            color: #380B61;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        #subtitulo {
+            color: #59429d;
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .campo {
+            margin-bottom: 20px;
+        }
+
+        .campo label {
+            display: block;
+            color: #59429d;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .campo input[type="text"],
+        .campo input[type="email"],
+        .campo input[type="password"],
+        .campo input[type="tel"],
+        .campo input[type="date"],
+        .campo select,
+        .campo textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .campo input:focus,
+        .campo select:focus,
+        .campo textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .campo-grupo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .radio-group label, .checkbox-group label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
+        .radio-group input, .checkbox-group input {
+            margin-right: 5px;
+            cursor: pointer;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .botao {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .botao:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .botao:active {
+            transform: translateY(-1px);
+        }
+
+        .senha-status {
+            margin-top: 5px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .fraca { color: #e74c3c; }
+        .media { color: #f39c12; }
+        .forte { color: #27ae60; }
+
+        .erro {
+            color: #e74c3c;
+            font-size: 0.9em;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .sucesso {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .campo-grupo {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="titulo">Cadastro</h1>
+        <p id="subtitulo">Complete suas informações</p>
+
+        <div class="sucesso" id="mensagemSucesso">
+            ✓ Cadastro realizado com sucesso!
+        </div>
+
+        <form id="formCadastro" onsubmit="return validarFormulario(event)">
+            <div class="campo-grupo">
+                <div class="campo">
+                    <label for="nome">Nome *</label>
+                    <input type="text" id="nome" name="nome" required>
+                    <span class="erro" id="erroNome">Nome é obrigatório</span>
+                </div>
+
+                <div class="campo">
+                    <label for="sobrenome">Sobrenome *</label>
+                    <input type="text" id="sobrenome" name="sobrenome" required>
+                </div>
+            </div>
+
+            <div class="campo-grupo">
+                <div class="campo">
+                    <label for="nascimento">Data de Nascimento *</label>
+                    <input type="date" id="nascimento" name="nascimento" required>
+                </div>
+
+                <div class="campo">
+                    <label for="telefone">Telefone *</label>
+                    <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="campo">
+                <label for="confirmaEmail">Confirmar Email *</label>
+                <input type="email" id="confirmaEmail" name="confirmaEmail" required>
+                <span class="erro" id="erroEmail">Os emails não conferem</span>
+            </div>
+
+            <div class="campo">
+                <label for="senha">Senha * (6-12 caracteres)</label>
+                <input type="password" id="senha" name="senha" minlength="6" maxlength="12" required>
+                <div class="senha-status" id="forcaSenha"></div>
+            </div>
+
+            <div class="campo">
+                <label for="confirmaSenha">Confirmar Senha *</label>
+                <input type="password" id="confirmaSenha" name="confirmaSenha" minlength="6" maxlength="12" required>
+                <span class="erro" id="erroSenha">As senhas não conferem</span>
+            </div>
+
+            <div class="campo">
+                <label>Gênero *</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="genero" value="feminino" required> Feminino</label>
+                    <label><input type="radio" name="genero" value="masculino"> Masculino</label>
+                    <label><input type="radio" name="genero" value="outros"> Outros</label>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label>Estado Civil *</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="estadoCivil" value="solteiro" required> Solteiro(a)</label>
+                    <label><input type="radio" name="estadoCivil" value="casado"> Casado(a)</label>
+                    <label><input type="radio" name="estadoCivil" value="divorciado"> Divorciado(a)</label>
+                    <label><input type="radio" name="estadoCivil" value="viuvo"> Viúvo(a)</label>
+                </div>
+            </div>
+
+            <div class="campo-grupo">
+                <div class="campo">
+                    <label for="escolaridade">Escolaridade *</label>
+                    <select id="escolaridade" name="escolaridade" required>
+                        <option value="" disabled selected>Selecione</option>
+                        <option value="EF">Ensino Fundamental</option>
+                        <option value="EM">Ensino Médio</option>
+                        <option value="ES">Ensino Superior</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="situacao">Situação *</label>
+                    <select id="situacao" name="situacao" required>
+                        <option value="" disabled selected>Selecione</option>
+                        <option value="completo">Completo</option>
+                        <option value="cursando">Cursando</option>
+                        <option value="incompleto">Incompleto</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label>Tecnologias que utiliza:</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="tecnologias" value="HTML"> HTML</label>
+                    <label><input type="checkbox" name="tecnologias" value="CSS"> CSS</label>
+                    <label><input type="checkbox" name="tecnologias" value="JavaScript"> JavaScript</label>
+                    <label><input type="checkbox" name="tecnologias" value="PHP"> PHP</label>
+                    <label><input type="checkbox" name="tecnologias" value="C#"> C#</label>
+                    <label><input type="checkbox" name="tecnologias" value="Python"> Python</label>
+                    <label><input type="checkbox" name="tecnologias" value="Java"> Java</label>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="experiencia">Conte um pouco da sua experiência:</label>
+                <textarea id="experiencia" name="experiencia" placeholder="Descreva sua experiência profissional..."></textarea>
+            </div>
+
+            <button class="botao" type="submit">Concluir Cadastro</button>
+        </form>
+    </div>
+
+    <script>
+        // Verificar força da senha
+        document.getElementById('senha').addEventListener('input', function() {
+            const senha = this.value;
+            const forcaSenha = document.getElementById('forcaSenha');
+            
+            let forca = 0;
+            if (senha.length >= 6) forca++;
+            if (senha.length >= 10) forca++;
+            if (/[A-Z]/.test(senha)) forca++;
+            if (/[0-9]/.test(senha)) forca++;
+            if (/[^A-Za-z0-9]/.test(senha)) forca++;
+            
+            if (senha.length === 0) {
+                forcaSenha.textContent = '';
+            } else if (forca <= 2) {
+                forcaSenha.textContent = '● Senha fraca';
+                forcaSenha.className = 'senha-status fraca';
+            } else if (forca <= 3) {
+                forcaSenha.textContent = '●● Senha média';
+                forcaSenha.className = 'senha-status media';
+            } else {
+                forcaSenha.textContent = '●●● Senha forte';
+                forcaSenha.className = 'senha-status forte';
+            }
+        });
+
+        // Validar formulário
+        function validarFormulario(event) {
+            event.preventDefault();
+            
+            let valido = true;
+            
+            // Validar emails
+            const email = document.getElementById('email').value;
+            const confirmaEmail = document.getElementById('confirmaEmail').value;
+            const erroEmail = document.getElementById('erroEmail');
+            
+            if (email !== confirmaEmail) {
+                erroEmail.style.display = 'block';
+                valido = false;
+            } else {
+                erroEmail.style.display = 'none';
+            }
+            
+            // Validar senhas
+            const senha = document.getElementById('senha').value;
+            const confirmaSenha = document.getElementById('confirmaSenha').value;
+            const erroSenha = document.getElementById('erroSenha');
+            
+            if (senha !== confirmaSenha) {
+                erroSenha.style.display = 'block';
+                valido = false;
+            } else {
+                erroSenha.style.display = 'none';
+            }
+            
+            if (valido) {
+                // Coletar dados do formulário
+                const formData = new FormData(document.getElementById('formCadastro'));
+                const dados = {};
+                
+                for (let [key, value] of formData.entries()) {
+                    if (key === 'tecnologias') {
+                        if (!dados[key]) dados[key] = [];
+                        dados[key].push(value);
+                    } else {
+                        dados[key] = value;
+                    }
+                }
+                
+                console.log('Dados do formulário:', dados);
+                
+                // Mostrar mensagem de sucesso
+                document.getElementById('mensagemSucesso').style.display = 'block';
+                document.getElementById('formCadastro').reset();
+                document.getElementById('forcaSenha').textContent = '';
+                
+                // Scroll para o topo
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Esconder mensagem após 5 segundos
+                setTimeout(() => {
+                    document.getElementById('mensagemSucesso').style.display = 'none';
+                }, 5000);
+            }
+            
+            return false;
+        }
+
+        // Máscara para telefone
+        document.getElementById('telefone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length <= 11) {
+                value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+                value = value.replace(/(\d)(\d{4})$/, '$1-$2');
+                e.target.value = value;
+            }
+        });
+    </script>
+</body>
+</html>
